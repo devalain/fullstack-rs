@@ -1,0 +1,3 @@
+[submodule "seed-rs-base"]
+	path = client
+	url = git@github.com:devalain/seed-rs-base.git

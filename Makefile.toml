@@ -1,0 +1,90 @@
+[tasks.default]
+alias = "my-default"
+
+[tasks.my-default]
+workspace = false
+dependencies = [
+    "my-format",
+    "my-doc",
+    "my-clippy",
+    "my-build"
+]
+
+[tasks.clean]
+workspace = false
+dependencies = [
+    "my-clean"
+]
+
+[tasks.run]
+workspace = false
+dependencies = [
+    "my-format",
+    "my-doc",
+    "my-clippy",
+    "my-run"
+]
+
+[tasks.release]
+workspace = false
+dependencies = [
+    "my-format",
+    "my-doc",
+    "my-clippy",
+    "my-release"
+]
+
+[tasks.my-doc]
+workspace = false
+dependencies = [
+    # "my-doc-build",
+    # "my-doc-compress"
+]
+
+[tasks.devdoc]
+workspace = false
+command = "cargo"
+args = ["doc", "--open"]
+
+[tasks.my-clean]
+command = "cargo"
+args = ["clean"]
+
+[tasks.my-release]
+command = "cargo"
+args = ["build", "--release", "-p", "server"]
+dependencies = ["my-wasm-build-release"]
+
+[tasks.my-build]
+command = "cargo"
+args = ["build", "-p", "server"]
+dependencies = ["my-wasm-build"]
+
+[tasks.my-run]
+command = "cargo"
+args = ["run", "-p", "server", "--", "--run"]
+dependencies = ["my-wasm-build"]
+
+[tasks.my-wasm-build]
+command = "wasm-pack"
+args = ["--log-level", "error", "build", "--target", "web", "--dev", "client"]
+
+[tasks.my-wasm-build-release]
+command = "wasm-pack"
+args = ["--log-level", "error", "build", "--target", "web", "--release", "client"]
+
+[tasks.my-format]
+command = "cargo"
+args = ["fmt"]
+
+[tasks.my-clippy]
+command = "cargo"
+args = ["clippy"]
+
+[tasks.my-doc-build]
+command = "mdbook"
+args = ["build", "doc", "--dest-dir", "../target/doc"]
+
+[tasks.my-doc-compress]
+command = "tar"
+args = [ "-C", "./target/doc", "-c", "-z", "-f", "./target/doc.tar.gz", "."]

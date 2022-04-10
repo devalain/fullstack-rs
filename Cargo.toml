@@ -1,0 +1,14 @@
+[workspace]
+
+members = [
+    "client",
+    "server"
+]
+
+[profile.release]
+lto = true
+# panic = "abort"
+
+[profile.release.package.seed-rs-base]
+opt-level = 's'
+codegen-units = 1
